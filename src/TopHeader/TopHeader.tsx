@@ -5,6 +5,15 @@ type Props = {
   state$: Function;
 };
 
+export const VIEW_OPTIONS = {
+    "parties": "Parties",
+    "new-party": "New Party",
+    "new-encounter": "New Encounter",
+    "import": "Import",
+    "export": "Export",
+    "about": "About"
+};
+
 export class TopHeader extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);

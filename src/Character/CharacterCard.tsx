@@ -9,12 +9,12 @@ import {
   Image,
   InputOnChangeData
 } from "semantic-ui-react";
-import { Character, CharacterType } from "../Character/Character";
+import { Character, CharacterType } from "./Character";
 import { uuid58 } from "uuid-base58";
 
 type Props = {
   character: CharacterType;
-  selected: boolean;
+  selected?: boolean;
   size?: "small" | "large";
   onSave?: Function;
   onCancel?: Function;

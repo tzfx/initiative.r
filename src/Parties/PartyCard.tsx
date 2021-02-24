@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Item } from "semantic-ui-react";
 import { Party } from "./Party";
-import { CharacterCard } from "../Tracker/CharacterCard";
+import { CharacterCard } from "../Character/CharacterCard";
 
 type Props = {
     party: Party;

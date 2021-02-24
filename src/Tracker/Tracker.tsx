@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Icon, List } from "semantic-ui-react";
 import { Character } from "../Character/Character";
-import { CharacterCard } from "./CharacterCard";
+import { CharacterCard } from "../Character/CharacterCard";
 
 type Props = {};
 
