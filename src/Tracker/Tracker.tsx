@@ -6,91 +6,89 @@ import { CharacterCard } from "./CharacterCard";
 type Props = {};
 
 type State = {
-    characters: Character[];
-    active: number;
-    adding: boolean;
+  characters: Character[];
+  active: number;
+  adding: boolean;
 };
 
 export class Tracker extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            active: 0,
-            adding: false,
-            characters: [],
-        };
-    }
-
-    next = () => {
-        this.setState({
-            active:
-                this.state.active + 1 < this.state.characters.length
-                    ? this.state.active + 1
-                    : 0,
-        });
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      active: 0,
+      adding: false,
+      characters: []
     };
+  }
 
-    prev = () => {
-        this.setState({
-            active:
-                this.state.active - 1 >= 0
-                    ? this.state.active - 1
-                    : this.state.characters.length - 1,
-        });
-    };
+  next = () => {
+    this.setState({
+      active:
+        this.state.active + 1 < this.state.characters.length
+          ? this.state.active + 1
+          : 0
+    });
+  };
 
-    handleSave = (character: Character) => {
-        this.setState({
-            characters: this.state.characters.concat(character),
-            adding: false,
-        });
-    };
+  prev = () => {
+    this.setState({
+      active:
+        this.state.active - 1 >= 0
+          ? this.state.active - 1
+          : this.state.characters.length - 1
+    });
+  };
 
-    handleCancel = () => {
-        this.setState({
-            adding: false,
-        });
-    };
+  handleSave = (character: Character) => {
+    this.setState({
+      characters: this.state.characters.concat(character),
+      adding: false
+    });
+  };
 
-    render = () => (
-        <Card.Group centered itemsPerRow={1}>
-            <Card>
-                <Card.Content>
-                    <Button onClick={() => this.prev()}>
-                        &lt;&lt; Previous
-                    </Button>
-                    <Button onClick={() => this.next()}>Next &gt;&gt;</Button>
-                </Card.Content>
-            </Card>
-            {this.state.characters
-                .sort((a, b) => b.initiative - a.initiative)
-                .map((char, i) => (
-                    <CharacterCard
-                        key={char.name}
-                        onSave={this.handleSave}
-                        selected={this.state.active === i}
-                        character={char}
-                    ></CharacterCard>
-                ))}
-            {this.state.adding ? (
-                <CharacterCard
-                    onCancel={this.handleCancel}
-                    onSave={this.handleSave}
-                    selected={false}
-                    new
-                    character={new Character()}
-                ></CharacterCard>
-            ) : (
-                ""
-            )}
-            <Button
-                disabled={this.state.adding}
-                onClick={() => this.setState({ adding: true })}
-                icon
-                labelPosition="left"
-            >
-                <Icon name="add square"></Icon>Add a new character
-            </Button>
-        </Card.Group>
-    );
+  handleCancel = () => {
+    this.setState({
+      adding: false
+    });
+  };
+
+  render = () => (
+    <Card.Group centered itemsPerRow={1}>
+      <Card>
+        <Card.Content>
+          <Button onClick={() => this.prev()}>&lt;&lt; Previous</Button>
+          <Button onClick={() => this.next()}>Next &gt;&gt;</Button>
+        </Card.Content>
+      </Card>
+      {this.state.characters
+        .sort((a, b) => b.initiative - a.initiative)
+        .map((char, i) => (
+          <CharacterCard
+            key={char.name}
+            onSave={this.handleSave}
+            selected={this.state.active === i}
+            character={char}
+          ></CharacterCard>
+        ))}
+      {this.state.adding ? (
+        <CharacterCard
+          onCancel={this.handleCancel}
+          onSave={this.handleSave}
+          selected={false}
+          new
+          character={new Character()}
+        ></CharacterCard>
+      ) : (
+        ""
+      )}
+      <Button
+        disabled={this.state.adding}
+        onClick={() => this.setState({ adding: true })}
+        icon
+        labelPosition="left"
+      >
+        <Icon name="add square"></Icon>Add a new character
+      </Button>
+    </Card.Group>
+  );
 }
