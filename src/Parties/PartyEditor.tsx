@@ -1,12 +1,13 @@
 import React from "react";
 import { Button, Card, Icon, List } from "semantic-ui-react";
-import { Character, CharacterType } from "../Character/Character";
+import { Character } from "../Character/Character";
 import { CharacterCard } from "../Character/CharacterCard";
-import { NewParty, Party } from "./Party";
+import { Party } from "./Party";
 import { PartyMetadata } from "./PartyMetadata";
 
 type Props = {
     party?: Party;
+    save$: Function;
 };
 
 type State = {
@@ -16,21 +17,21 @@ type State = {
 export class PartyEditor extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        const party = this.props.party ?? NewParty;
+        const party = this.props.party ?? new Party();
         this.state = {
             adding: false,
             ...party
         };
     }
 
-    handleSave = (character: Character) => {
+    handleCharacterSave = (character: Character) => {
         this.setState({
             characters: this.state.characters.concat(character),
             adding: false,
         });
     };
 
-    handleCancel = () => {
+    handleCharacterCancel = () => {
         this.setState({
             adding: false,
         });
@@ -47,10 +48,18 @@ export class PartyEditor extends React.Component<Props, State> {
             >
                 <Icon name="add square"></Icon>Add a new character
             </Button>
+            <Button
+                disabled={this.state.adding}
+                onClick={() => this.props.save$(this.state)}
+                icon
+                labelPosition="right"
+            >
+                <Icon name="save"></Icon>Save Party
+            </Button>
             {this.state.adding ? (
                 <CharacterCard
-                    onCancel={this.handleCancel}
-                    onSave={this.handleSave}
+                    onCancel={this.handleCharacterCancel}
+                    onSave={this.handleCharacterSave}
                     new
                     character={new Character()}
                 ></CharacterCard>
@@ -62,7 +71,7 @@ export class PartyEditor extends React.Component<Props, State> {
                 .map((char, i) => (
                     <CharacterCard
                         key={char.name}
-                        onSave={this.handleSave}
+                        onSave={this.handleCharacterSave}
                         character={char}
                     ></CharacterCard>
                 ))}

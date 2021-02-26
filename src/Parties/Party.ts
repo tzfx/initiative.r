@@ -2,7 +2,7 @@ import { uuid58 } from "uuid-base58";
 import { CharacterType } from "../Character/Character";
 import { company } from "faker";
 
-export type Party = {
+export interface PartyType {
   id: string;
   name: string;
   description?: string;
@@ -11,6 +11,19 @@ export type Party = {
   updated: Date;
   tpk: boolean;
 };
+
+export class Party implements PartyType {
+  constructor(
+    public id: string = uuid58(),
+    public name: string = company.companyName(),
+    public characters: CharacterType[] = [],
+    public created: Date = new Date(),
+    public updated: Date = new Date(),
+    public tpk: boolean = false,
+    public description: string = company.catchPhrase()
+  ){}
+}
+
 
 export const NewParty: Party = {
     id: uuid58(),

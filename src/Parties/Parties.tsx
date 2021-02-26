@@ -17,7 +17,7 @@ export class Parties extends React.Component<Props, {}> {
         <Card.Group centered itemsPerRow={1}>
             {this.props.parties.length > 0 ? (
                 this.props.parties.map((party) => (
-                    <PartyCard party={party}></PartyCard>
+                    <PartyCard key={party.id} party={party}></PartyCard>
                 ))
             ) : (
                 <Card>
