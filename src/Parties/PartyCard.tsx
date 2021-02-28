@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Item } from "semantic-ui-react";
+import { Button, Card, Item } from "semantic-ui-react";
 import { Party } from "./Party";
 import { CharacterCard } from "../Character/CharacterCard";
 import { DateTime } from "luxon";
@@ -17,7 +17,15 @@ export class PartyCard extends React.Component<Props, {}> {
         <Card>
             <Card.Header>{this.props.party.name}</Card.Header>
             <Card.Content>
-                <Card.Group itemsPerRow={this.props.party.characters.length > 16 ? 16 : this.props.party.characters.length === 0 ? 1 : this.props.party.characters.length as any}>
+                <Card.Group
+                    itemsPerRow={
+                        this.props.party.characters.length > 16
+                            ? 16
+                            : this.props.party.characters.length === 0
+                            ? 1
+                            : (this.props.party.characters.length as any)
+                    }
+                >
                     {this.props.party.characters.map((character) => (
                         <CharacterCard
                             key={character.avatar}
@@ -28,8 +36,27 @@ export class PartyCard extends React.Component<Props, {}> {
                     ))}
                     <Item></Item>
                 </Card.Group>
+                
+                <Item.Group>
+                    <Item>
+                        <Button icon="cog" label="Edit Party"></Button>
+                    </Item>
+                    <Item>
+                        <Button icon="play" label="Resume Encounter"></Button>
+                    </Item>
+                    <Item>
+                        <Button icon="hourglass start" label="New Encounter"></Button>
+                    </Item>
+                    <Item>
+                        <Button icon="trash" label="Delete Party"></Button>
+                    </Item>
+                </Item.Group>
             </Card.Content>
-            <Card.Meta>Last seen: {DateTime.fromJSDate(this.props.party.updated).toRelative()}</Card.Meta>
+
+            <Card.Meta>
+                Last seen:{" "}
+                {DateTime.fromJSDate(this.props.party.updated).toRelative()}
+            </Card.Meta>
         </Card>
     );
 }

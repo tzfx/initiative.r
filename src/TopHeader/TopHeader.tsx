@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Dropdown, Header, Menu, Segment } from "semantic-ui-react";
+import { Dropdown, Menu } from "semantic-ui-react";
 
 type Props = {
   state$: Function;

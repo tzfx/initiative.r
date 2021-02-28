@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Icon, List } from "semantic-ui-react";
+import { Button, Card, Icon } from "semantic-ui-react";
 import { Character } from "../Character/Character";
 import { CharacterCard } from "../Character/CharacterCard";
 import { Party } from "./Party";
@@ -20,7 +20,7 @@ export class PartyEditor extends React.Component<Props, State> {
         const party = this.props.party ?? new Party();
         this.state = {
             adding: false,
-            ...party
+            ...party,
         };
     }
 

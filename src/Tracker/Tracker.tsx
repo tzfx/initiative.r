@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Icon, List } from "semantic-ui-react";
+import { Button, Card, Icon } from "semantic-ui-react";
 import { Character } from "../Character/Character";
 import { CharacterCard } from "../Character/CharacterCard";
 

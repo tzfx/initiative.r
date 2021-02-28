@@ -1,6 +1,5 @@
 import { Container } from "semantic-ui-react";
 import "./App.css";
-import { Tracker } from "./Tracker/Tracker";
 import { Parties } from "./Parties/Parties";
 import { PartyEditor } from "./Parties/PartyEditor";
 import { TopHeader } from "./TopHeader/TopHeader";

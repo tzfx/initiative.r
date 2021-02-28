@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Form, FormInput, Icon, Input, Segment } from "semantic-ui-react";
+import { Card, Form, Icon } from "semantic-ui-react";
 import { Party } from "./Party";
 
 type Props = Party;
@@ -50,9 +50,7 @@ export class PartyMetadata extends React.Component<Props, State> {
                     </Form>
                 </Card.Header>
             )}
-            <Card.Description>
-                "{this.props.description}"
-            </Card.Description>
+            <Card.Description>"{this.props.description}"</Card.Description>
             <Card.Meta textAlign="right">{this.props.id}</Card.Meta>
         </Card>
     );
