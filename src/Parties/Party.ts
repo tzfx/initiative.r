@@ -1,6 +1,7 @@
 import { uuid58 } from "uuid-base58";
 import { CharacterType } from "../Character/Character";
 import { company } from "faker";
+import { Encounter } from "../Encounter/Encounter"
 
 export interface PartyType {
   id: string;
@@ -10,6 +11,7 @@ export interface PartyType {
   created: Date;
   updated: Date;
   tpk: boolean;
+  encounters: Encounter[];
 };
 
 export class Party implements PartyType {
@@ -20,7 +22,8 @@ export class Party implements PartyType {
     public created: Date = new Date(),
     public updated: Date = new Date(),
     public tpk: boolean = false,
-    public description: string = company.catchPhrase()
+    public description: string = company.catchPhrase(),
+    public encounters = []
   ){}
 }
 
@@ -32,5 +35,6 @@ export const NewParty: Party = {
     characters: [],
     created: new Date(),
     updated: new Date(),
-    tpk: false
+    tpk: false,
+    encounters: []
 };

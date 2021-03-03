@@ -2,13 +2,14 @@ import Avatars from "@dicebear/avatars";
 import sprites from "@dicebear/avatars-human-sprites";
 import React from "react";
 import {
+    Button,
     Card,
     Divider,
     Form,
     Icon,
     InputOnChangeData,
 } from "semantic-ui-react";
-import { Character, CharacterType } from "./Character";
+import { CharacterType } from "./Character";
 import { uuid58 } from "uuid-base58";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 };
 
 type State = {
+    edits: CharacterType;
     editting: boolean;
     showAdvanced: boolean;
     avatar?: string;
@@ -31,6 +33,7 @@ export class CharacterCard extends React.Component<Props, State> {
         super(props);
         this.state = {
             editting: props.new ?? false,
+            edits: this.props.character,
             avatar: props.new ? uuid58() : this.props.character.avatar,
             showAdvanced: false,
             ...props,
@@ -46,7 +49,7 @@ export class CharacterCard extends React.Component<Props, State> {
     handleChange = (event: React.ChangeEvent, data: InputOnChangeData) => {
         const { name, value } = data;
         this.setState({
-            character: { ...this.state.character, [name]: value },
+            edits: { ...this.state.character, [name]: value },
         });
     };
 
@@ -60,18 +63,22 @@ export class CharacterCard extends React.Component<Props, State> {
     };
 
     doSave() {
+        this.setState({
+            character: {...this.state.character, ...this.state.edits}
+        })
         if (this.props.onSave) this.props.onSave(this.state.character);
     }
 
     doCancel() {
+        this.setState({
+            editting: false
+        });
         if (this.props.onCancel) this.props.onCancel();
     }
 
     toggleSkip = () =>
         this.setState({
-            character: (this.state.character as Character).setSkip(
-                !this.state.character.skip
-            ),
+            character: {...this.state.character, skip: !this.state.character.skip}
         });
 
     render = () => (
@@ -118,6 +125,7 @@ export class CharacterCard extends React.Component<Props, State> {
                                     label="Name"
                                     name="name"
                                     onChange={this.handleChange}
+                                    value={this.state.character.name}
                                 ></Form.Input>
                             </Form.Field>
                             <Form.Field>
@@ -128,6 +136,7 @@ export class CharacterCard extends React.Component<Props, State> {
                                     label="Initiative"
                                     name="initiative"
                                     onChange={this.handleChange}
+                                    value={this.state.character.initiative}
                                 ></Form.Input>
                             </Form.Field>
                         </Form.Group>
@@ -151,6 +160,7 @@ export class CharacterCard extends React.Component<Props, State> {
                                             min={1}
                                             labelPosition="left"
                                             label="Hit Points"
+                                            value={this.state.character.hp}
                                         ></Form.Input>
                                     </Form.Field>
                                     <Form.Field>
@@ -159,6 +169,7 @@ export class CharacterCard extends React.Component<Props, State> {
                                             min={1}
                                             labelPosition="left"
                                             label="Armor Class"
+                                            value={this.state.character.ac}
                                         ></Form.Input>
                                     </Form.Field>
                                     <Form.Field>
@@ -167,6 +178,7 @@ export class CharacterCard extends React.Component<Props, State> {
                                             min={1}
                                             labelPosition="left"
                                             label="Spell Save DC"
+                                            value={this.state.character.ssDC}
                                         ></Form.Input>
                                     </Form.Field>
                                 </Form.Group>
@@ -212,6 +224,7 @@ export class CharacterCard extends React.Component<Props, State> {
                     <Card.Meta>
                         Initiative: {this.state.character.initiative}
                     </Card.Meta>
+                    <Button icon="cog" size="small" onClick={() => this.setState({editting: true})}></Button>
                 </Card.Content>
             )}
         </Card>

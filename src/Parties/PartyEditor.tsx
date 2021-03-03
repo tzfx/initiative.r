@@ -26,7 +26,7 @@ export class PartyEditor extends React.Component<Props, State> {
 
     handleCharacterSave = (character: Character) => {
         this.setState({
-            characters: this.state.characters.concat(character),
+            characters: this.state.characters.filter((c) => c.avatar !== character.avatar).concat(character),
             adding: false,
         });
     };
@@ -68,7 +68,7 @@ export class PartyEditor extends React.Component<Props, State> {
             )}
             {this.state.characters
                 .sort((a, b) => b.initiative - a.initiative)
-                .map((char, i) => (
+                .map((char) => (
                     <CharacterCard
                         key={char.name}
                         onSave={this.handleCharacterSave}
