@@ -7,54 +7,72 @@ import { TopHeader } from "./TopHeader/TopHeader";
 import "semantic-ui-css/semantic.min.css";
 import React from "react";
 import { Party } from "./Parties/Party";
+import { StorageService } from "./Storage/StorageService";
 
 type Props = {};
 
 type State = {
-  view: string;
-  parties: Party[];
+    view: string;
+    parties: Party[];
 };
 
 export class App extends React.Component<Props, State> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      view: "parties",
-      parties: [],
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            view: "parties",
+            parties: [],
+        };
+    }
+
+    componentDidMount = () => {
+        this.reloadParties();
     };
-  }
+    
+    handlePartyChange = () => this.reloadParties();
 
-  handleViewChange = (view: string) => {
-    this.setState({ view });
-  };
+    reloadParties = () =>
+        StorageService.getParties().then((parties) =>
+            this.setState({ parties: parties ?? [] })
+        );
 
-  render = () => (
-    <div className="App">
-      <Container>
-        <TopHeader state$={(v: string) => this.handleViewChange(v)}></TopHeader>
-        {this.state.view === "parties" ? (
-          <Parties
-            state$={(v: string) => this.handleViewChange(v)}
-            parties={this.state.parties}
-          ></Parties>
-        ) : this.state.view === "new-party" ? (
-          <PartyEditor
-            save$={(party: Party) =>
-              this.setState({
-                parties: this.state.parties
-                  .filter((p) => p.id !== party.id)
-                  .concat(party),
-              },() => this.setState({view: "parties"}))
-            }
-          ></PartyEditor>
-        ) : (
-          <div></div>
-        )}
+    handleViewChange = (view: string) => {
+        this.setState({ view });
+    };
 
-        {/* <Tracker></Tracker> */}
-      </Container>
-    </div>
-  );
+    render = () => (
+        <div className="App">
+            <Container>
+                <TopHeader
+                    state$={(v: string) => this.handleViewChange(v)}
+                ></TopHeader>
+                {this.state.view === "parties" ? (
+                    <Parties
+                        change$={() => this.handlePartyChange()}
+                        state$={(v: string) => this.handleViewChange(v)}
+                        parties={this.state.parties}
+                    ></Parties>
+                ) : this.state.view === "new-party" ? (
+                    <PartyEditor
+                        save$={(party: Party) =>
+                            this.setState(
+                                {
+                                    parties: this.state.parties
+                                        .filter((p) => p.id !== party.id)
+                                        .concat(party),
+                                },
+                                () => this.setState({ view: "parties" })
+                            )
+                        }
+                    ></PartyEditor>
+                ) : (
+                    <div></div>
+                )}
+
+                {/* <Tracker></Tracker> */}
+            </Container>
+        </div>
+    );
 }
 
 export default App;

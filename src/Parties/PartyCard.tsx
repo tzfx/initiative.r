@@ -6,6 +6,7 @@ import { DateTime } from "luxon";
 import { Encounter } from "../Encounter/Encounter";
 
 type Props = {
+  delete$: Function,
   party: Party;
 };
 
@@ -48,7 +49,7 @@ export class PartyCard extends React.Component<Props, {}> {
             )}
           </Item>
           <Item>
-            <Button icon="trash" label="Delete Party"></Button>
+            <Button icon="trash" label="Delete Party" onClick={() => this.props.delete$(this.props.party)}></Button>
           </Item>
         </Item.Group>
       </Card.Content>

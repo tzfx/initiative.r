@@ -4,6 +4,7 @@ import { Character } from "../Character/Character";
 import { CharacterCard } from "../Character/CharacterCard";
 import { Party } from "./Party";
 import { PartyMetadata } from "./PartyMetadata";
+import { StorageService } from "../Storage/StorageService";
 
 type Props = {
     party?: Party;
@@ -25,10 +26,15 @@ export class PartyEditor extends React.Component<Props, State> {
     }
 
     handleCharacterSave = (character: Character) => {
-        this.setState({
-            characters: this.state.characters.filter((c) => c.avatar !== character.avatar).concat(character),
-            adding: false,
-        });
+        this.setState(
+            {
+                characters: this.state.characters
+                    .filter((c) => c.avatar !== character.avatar)
+                    .concat(character),
+                adding: false,
+            },
+            () => StorageService.saveParty({ ...this.state })
+        );
     };
 
     handleCharacterCancel = () => {
