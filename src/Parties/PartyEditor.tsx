@@ -8,7 +8,7 @@ import { StorageService } from "../Storage/StorageService";
 
 type Props = {
     party?: Party;
-    save$: Function;
+    save$: (state: State) => void;
 };
 
 type State = {
@@ -23,6 +23,12 @@ export class PartyEditor extends React.Component<Props, State> {
             adding: false,
             ...party,
         };
+    }
+    
+    handlePartyMetaUpdate = (name: string) => {
+        this.setState({
+            name
+        });
     }
 
     handleCharacterSave = (character: Character) => {
@@ -45,7 +51,7 @@ export class PartyEditor extends React.Component<Props, State> {
 
     render = () => (
         <Card.Group centered itemsPerRow={1}>
-            <PartyMetadata {...this.state}></PartyMetadata>
+            <PartyMetadata updateName$={this.handlePartyMetaUpdate} {...this.state}></PartyMetadata>
             <Button
                 disabled={this.state.adding}
                 onClick={() => this.setState({ adding: true })}

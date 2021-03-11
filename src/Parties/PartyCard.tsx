@@ -1,18 +1,34 @@
 import React from "react";
-import { Button, Card, Item } from "semantic-ui-react";
+import { Button, Card, Header, Icon, Item, Modal } from "semantic-ui-react";
 import { Party } from "./Party";
 import { CharacterCard } from "../Character/CharacterCard";
 import { DateTime } from "luxon";
 import { Encounter } from "../Encounter/Encounter";
 
 type Props = {
-  delete$: Function,
+  delete$: (party: Party) => void,
   party: Party;
 };
 
-export class PartyCard extends React.Component<Props, {}> {
+type State = {
+  deleteModalOpen: boolean
+}
+
+export class PartyCard extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = {
+      deleteModalOpen: false
+    }
+  }
+  
+  doDelete = () => {
+    this.props.delete$(this.props.party);
+    this.setState(
+      {
+        deleteModalOpen: false
+      }
+    )
   }
 
   render = () => (
@@ -49,7 +65,21 @@ export class PartyCard extends React.Component<Props, {}> {
             )}
           </Item>
           <Item>
-            <Button icon="trash" label="Delete Party" onClick={() => this.props.delete$(this.props.party)}></Button>
+            <Modal open={this.state.deleteModalOpen} basic size="small" trigger={<Button icon="trash" label="Delete Party" onClick={()=>this.setState({deleteModalOpen: true})}></Button>}>
+              <Header>
+                <Icon name="trash"></Icon>
+                Delete {this.props.party.name}?
+              </Header>
+              <Modal.Content>
+                <p>
+                  Are you sure you want to delete this party? This action cannot be undone.
+                </p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button icon="trash" secondary inverted basic onClick={() => this.setState({deleteModalOpen: false})}>Cancel</Button>
+                <Button icon="trash" color="red" onClick={() => this.doDelete()}>Delete</Button>
+              </Modal.Actions>
+            </Modal>
           </Item>
         </Item.Group>
       </Card.Content>

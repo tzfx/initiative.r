@@ -2,11 +2,14 @@ import React from "react";
 import { Card, Form, Icon } from "semantic-ui-react";
 import { Party } from "./Party";
 
-type Props = Party;
+type Props = {
+    updateName$: (update: string) => void
+} & Party;
 
 type State = {
     editting: boolean;
     name: string;
+    edits: string;
 };
 
 export class PartyMetadata extends React.Component<Props, State> {
@@ -15,7 +18,20 @@ export class PartyMetadata extends React.Component<Props, State> {
         this.state = {
             editting: false,
             name: this.props.name,
+            edits: this.props.name
         };
+    }
+    
+    saveName = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        this.props.updateName$(this.state.name);
+        this.setState({name: this.state.edits, editting: false});
+    }
+    
+    updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            edits: event.target.value
+        });
     }
 
     render = () => (
@@ -37,14 +53,18 @@ export class PartyMetadata extends React.Component<Props, State> {
                                 size="small"
                                 label="Party Name: "
                                 labelPosition="left"
+                                value={this.state.edits}
+                                onChange={(e) => this.updateName(e)}
                             ></Form.Input>
                             <Form.Button
+                                onClick={(e) => this.saveName(e)}
                                 size="small"
                                 icon="check circle"
                             ></Form.Button>
                             <Form.Button
+                                onClick={() => this.setState({editting: false})}
                                 size="small"
-                                icon="x circle"
+                                icon="x"
                             ></Form.Button>
                         </Form.Group>
                     </Form>
