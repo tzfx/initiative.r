@@ -8,6 +8,7 @@ import "semantic-ui-css/semantic.min.css";
 import React from "react";
 import { Party } from "./Parties/Party";
 import { StorageService } from "./Storage/StorageService";
+import { Tracker } from "./Tracker/Tracker";
 
 type Props = {};
 
@@ -28,7 +29,7 @@ export class App extends React.Component<Props, State> {
     componentDidMount = () => {
         this.reloadParties();
     };
-    
+
     handlePartyChange = () => this.reloadParties();
 
     reloadParties = () =>
@@ -65,6 +66,8 @@ export class App extends React.Component<Props, State> {
                             )
                         }
                     ></PartyEditor>
+                ) : this.state.view === "new-encounter" ? (
+                    <Tracker characters={this.state.parties[0].characters ?? []}></Tracker>
                 ) : (
                     <div></div>
                 )}
