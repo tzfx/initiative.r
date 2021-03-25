@@ -1,17 +1,16 @@
 import React from "react";
-import { Icon } from "semantic-ui-react";
+import { EditableTrackerCell } from "../Tracker/EditableTrackerCell";
 
 type Props = {
-    hp?: number;
-    maxhp?: number;
+    name: string;
+    value?: number;
+    save$: Function;
 };
 
 type State = Props;
 
 export class Health extends React.Component<State, Props> {
     private NA = "N/A";
-
-    hasData = () => this.props.hp != null && this.props.maxhp != null;
 
     constructor(props: Props) {
         super(props);
@@ -21,9 +20,10 @@ export class Health extends React.Component<State, Props> {
     }
 
     render = () => (
-        <div>
-            {this.hasData() ? this.state.hp + "/" + this.state.maxhp : this.NA}
-            <Icon name="heart"></Icon>
-        </div>
+        <EditableTrackerCell
+            value={this.props.value ?? this.NA }
+            save$={(value) => this.props.save$(value)}
+            icon="heart"
+        ></EditableTrackerCell>
     );
 }

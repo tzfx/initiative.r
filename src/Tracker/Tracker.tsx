@@ -92,10 +92,10 @@ export class Tracker extends React.Component<Props, State> {
                 <Card.Content>
                     <Table celled>
                         <Table.Header>
-                            <Table.HeaderCell>INITIATIVE</Table.HeaderCell>
-                            <Table.HeaderCell>NAME</Table.HeaderCell>
+                            <Table.HeaderCell textAlign="center">INITIATIVE</Table.HeaderCell>
+                            <Table.HeaderCell textAlign="center">NAME</Table.HeaderCell>
                             {this.visibleColumns().map(([key]) => (
-                                <Table.HeaderCell key={key}>
+                                <Table.HeaderCell textAlign="center" key={key}>
                                     {key.toUpperCase()}
                                 </Table.HeaderCell>
                             ))}

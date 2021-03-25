@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Popup, Button, Input, SemanticICONS } from "semantic-ui-react";
+import { Table, Popup, Button, Input, SemanticICONS, Icon } from "semantic-ui-react";
 
 type Value = number | string | "N/A";
 
@@ -30,13 +30,15 @@ export class EditableTrackerCell extends React.Component<Props, State> {
                 open={this.state.editting}
                 on="click"
                 trigger={
-                    <Button
-                        basic
-                        icon={this.props.icon}
-                        onClick={() => this.setState({ editting: true })}
-                    >
-                        {this.props.value}
-                    </Button>
+                        <Button
+                            basic
+                            icon
+                            labelPosition="right"
+                            onClick={() => this.setState({ editting: true })}
+                        >
+                            {this.props.value}
+                            <Icon name={this.props.icon}></Icon>
+                        </Button>
                 }
             >
                 <Input

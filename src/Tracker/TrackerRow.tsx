@@ -11,6 +11,8 @@ type Props = {
 
 type State = {
     initiative: number;
+    hp: number;
+    ac: number;
     editting: boolean;
 };
 export class TrackerRow extends React.Component<Props, State> {
@@ -18,22 +20,30 @@ export class TrackerRow extends React.Component<Props, State> {
         super(props);
         this.state = {
             initiative: this.props.initiative,
+            hp: this.props.hp ?? 0,
+            ac: this.props.ac ?? 0,
             editting: false,
         };
     }
 
     render = () => (
-        <Table.Row active={this.props.active}>
-            <EditableTrackerCell value={this.props.initiative} save$={(value) => this.props.initiative$(this.props.name, value)}></EditableTrackerCell>
+        <Table.Row textAlign="center" active={this.props.active}>
+            <EditableTrackerCell
+                value={this.props.initiative}
+                save$={(value) =>
+                    this.props.initiative$(this.props.name, value)
+                }
+                icon="recycle"
+            ></EditableTrackerCell>
             <Table.Cell collapsing>
                 <Avatar link={this.props.avatar} width={24}></Avatar>
                 {this.props.name}
             </Table.Cell>
             <Table.Cell>
-                <Health {...this.props}></Health>
+                <Health {...this.props} value={this.state.hp} save$={(value: number) => this.setState({hp: value})}></Health>
             </Table.Cell>
             <Table.Cell>
-                <AC {...this.props}></AC>
+                <AC {...this.props} value={this.state.ac} save$={(value: number) => this.setState({ac: value})}></AC>
             </Table.Cell>
             <Table.Cell>
                 <Button.Group size="small">
